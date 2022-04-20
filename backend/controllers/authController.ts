@@ -43,5 +43,14 @@ static async resetPassword(req: Request, res: Response) {
   await manager.resetPassword(req, res);
 }
 
+  //@desc verify user email
+  //@route /login/verify/:token
+  //@access private
+
+  static async verifyUser(req: Request, res: Response) {
+    let entityManager = getManager() || getConnection().manager;
+    const manager = entityManager.getCustomRepository(UserRepository);
+    await manager.verifyUser(req, res);
+  }
 }
 

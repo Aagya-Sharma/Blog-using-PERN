@@ -122,7 +122,7 @@ export class UserRepository extends Repository<User> {
           return res.status(200).json({msg:'password set'})
       }
       else{
-        
+
         return res.status(401).json({
           error: 'Token has expired'
         })
@@ -133,8 +133,6 @@ export class UserRepository extends Repository<User> {
   }
    
   }
-
-  
   async verifyUser(req: Request, res: Response) {
     try {
       // compare the comfirmation code
@@ -157,8 +155,6 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  
-  
   // Login user
   async loginUser(req: Request, res: Response) {
       const { useremail, password } = req.body;
