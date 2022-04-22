@@ -3,6 +3,7 @@ import { ConnectionOptions } from "typeorm";
 import dotenv from "dotenv";
 import { User } from "./backend/entities/User";
 import { Category } from "./backend/entities/Category";
+import { Blog } from "./backend/entities/Blog";
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const config = {
   password: "admin123",
   database: "Arbyte_blogs",
 };
-const connectionsOptions: ConnectionOptions = {
+const Options: ConnectionOptions = {
   type: "postgres",
   host: "localhost",
   name: "default",
@@ -22,8 +23,8 @@ const connectionsOptions: ConnectionOptions = {
   password: "admin123",
   database: "Arbyte_blogs",
   synchronize: true,
-  entities:[User,Category],
+  entities:[User,Category,Blog],
   dropSchema: false,
 };
 
-export = connectionsOptions;
+export = Options;

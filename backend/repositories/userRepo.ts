@@ -77,7 +77,7 @@ export class UserRepository extends Repository<User> {
 
       const msg = {
         to: useremail,
-        from: 'sharmaaagya7@gmail.com',
+        from: 'sharma.aagya@outlook.com',
         subject: 'Reset Password Link',
         html: `Please click on the following link to reset your password: <a href="${url}">${url}</a>`,
       }
@@ -166,7 +166,7 @@ export class UserRepository extends Repository<User> {
           (await bcrypt.compare(password, currentUser.password))
         ) {
           //check to see if the user has verified his account
-          if(currentUser.status === "Active"){
+          if(currentUser.status !== "Active"){
             res.status(200).json({
               id:currentUser.id,
               name: currentUser.username,

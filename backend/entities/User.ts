@@ -7,7 +7,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     getCustomRepository,
+    OneToMany,
+    JoinColumn,ManyToOne
   } from "typeorm";
+  import {Blog} from './Blog'
   
   @Entity("user")
   export class User extends BaseEntity {
@@ -68,4 +71,12 @@ import {
   
     @UpdateDateColumn()
     updated_at!: Date;
+
+
+    @OneToMany(() => Blog, blog => blog.user)
+    // @JoinColumn({name: 'id'})
+    blogs!: Blog[];
+    
+
+   
   }

@@ -5,6 +5,9 @@ import { ConnectionOptions, createConnection } from "typeorm";
 import dbConfig from "../ormconfig";
 
 import { router } from "./routes/userRoutes";
+import { categoryrouter } from "./routes/categoryRoutes";
+import { blogrouter } from "./routes/blogRoutes";
+    
 
 
 
@@ -20,6 +23,9 @@ createConnection(dbConfig as ConnectionOptions).then(async (connection) => {
     app.use(express.urlencoded({ extended: false }));
   
     app.use("/", router);
+    app.use("/api/category", categoryrouter);
+    app.use("/api/blog", blogrouter);
+
     
 
   
