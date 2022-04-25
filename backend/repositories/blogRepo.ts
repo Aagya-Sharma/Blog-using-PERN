@@ -55,4 +55,53 @@ export class BlogRepository extends Repository<Blog> {
       });
     }
   }
+
+
+// get all the blogs of a user
+async getBlogs(req:Request,res:Response){
+  const userId = req.user.id;
+
+  //get the blogs of the current user
+  try{
+    const UserRepo = getRepository(User);
+
+    
+    const userBlogs: any = await UserRepo.findOne(
+      { id: userId },
+      {
+        relations: ["blogs"],
+      }
+    );
+    const blogs = userBlogs.blogs
+
+    return res.status(200).json({
+      blogs
+    })
+  }catch(error){
+    return res.status(401).json({
+      'error':error
+    })
+  }
+}
+
+//get the details of a particular user
+async getBlog(req:Request,res:Response){
+  const BlogId = req.params.BlogId;
+
+  try{
+    const blog:any= await Blog.findOne({id:BlogId});
+    console.log(blog)
+    res.status(200).json({
+      title: blog.title,
+      desc: blog.desc,
+      imageurl: blog.imageurl,
+    }); 
+  }catch(err){
+    return res.json({
+      'error':err
+    })
+  }
+
+
+}
 }
