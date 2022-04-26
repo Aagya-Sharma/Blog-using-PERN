@@ -101,7 +101,29 @@ async getBlog(req:Request,res:Response){
       'error':err
     })
   }
-
-
 }
+
+//update a single blog
+async updateBlog(req: Request, res: Response) {
+  const { title, desc, imageurl } = req.body;
+  const blogId = req.params.BlogId;
+
+  try {
+    //find the blog using the id 
+    const blog:any = await Blog.findOne({id:blogId})
+    blog.title = title;
+    blog.desc = desc;
+    blog.imageurl = imageurl
+    
+    let updatedArticle = await this.save(blog)
+    res.send(updatedArticle);
+    console.log(updatedArticle)
+  } catch (error) {
+    res.json({
+      'error':error,
+    });
+  }
+}
+
+
 }

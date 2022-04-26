@@ -24,5 +24,11 @@ export class BlogController {
     const manager = entityManager.getCustomRepository(BlogRepository);
     await manager.getBlog(req, res);
   }
+
+  static async updateBlog(req: Request, res: Response) {
+    let entityManager = getManager();
+    const manager = entityManager.getCustomRepository(BlogRepository);
+    await manager.updateBlog(req, res);
+  }
 }
 

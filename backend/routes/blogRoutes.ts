@@ -7,8 +7,10 @@ import authMiddleware from '../middleware/authMiddleware'
 const blogrouter = Router();
 
 blogrouter.post('/create',authMiddleware,BlogController.addBlog)
-blogrouter.post('/get',authMiddleware,BlogController.getBlogs)
-blogrouter.post('/get/:BlogId',authMiddleware,BlogController.getBlog)
+blogrouter.get('/get',authMiddleware,BlogController.getBlogs)
+blogrouter.get('/get/:BlogId',authMiddleware,BlogController.getBlog)
+blogrouter.put('/update/:BlogId',authMiddleware,BlogController.updateBlog)
+
 
 
 
