@@ -8,11 +8,12 @@ import {
 import { Blog } from "../entities/Blog";
 import { Request, Response } from "express";
 import { User } from "../entities/User";
+import { Category } from "../entities/Category";
 
 @EntityRepository(Blog)
 export class BlogRepository extends Repository<Blog> {
   async addBlog(req: Request, res: Response) {
-    const { title, desc, imageurl } = req.body;
+    const { title, desc, imageurl,catId } = req.body;
     const id = req.user.id;
 
     try {
@@ -22,13 +23,19 @@ export class BlogRepository extends Repository<Blog> {
       blog.title = title;
       blog.desc = desc;
       blog.imageurl = imageurl;
+      
 
       const UserRepo = getRepository(User);
+
 
       // Find the author of the post using id
 
       const currentUser: any = await UserRepo.findOne({ id: id });
       console.log(currentUser)
+
+      //Find the category of the post using id
+      const currentCategory: any = await Category.findOne({ id: catId });
+      console.log(currentCategory)
 
       // Find the aritcles that the author has posted using the realtion
 
@@ -39,20 +46,34 @@ export class BlogRepository extends Repository<Blog> {
         }
       );
 
+      //Find the articles belonging to the category
+      const categoryBlogs: any = await Category.findOne(
+        { id: catId },
+        {
+          relations: ["blogs"],
+        }
+      );
+
+      
       // Save the articles associated with an user
 
       const blogArray = userWithBlog.blogs;
 
       currentUser.blogs = [...blogArray, blog];
+
+      //save the blogs in the category
+      const blogCatArray =categoryBlogs.blogs;
+      currentCategory.blogs = [...blogCatArray,blog]
+
       let userContent = await this.save(blog);
 
       await UserRepo.save(currentUser);
+      await Category.save(currentCategory);
+
 
       res.status(400).send(userContent);
     } catch (error) {
-      res.send({
-        message: "The upload was unsuccessfull",
-      });
+      res.send(error);
     }
   }
 
@@ -84,7 +105,7 @@ async getBlogs(req:Request,res:Response){
   }
 }
 
-//get the details of a particular user
+//get the details of a particular blog
 async getBlog(req:Request,res:Response){
   const BlogId = req.params.BlogId;
 
@@ -125,5 +146,15 @@ async updateBlog(req: Request, res: Response) {
   }
 }
 
+async getAllBlogs(req:Request,res:Response){
+  try{
+    const blogs =await  Blog.find();
+    res.status(200).json({
+      blogs
+    });
 
+  }catch(err){
+    res.send(err)
+  }
+}
 }

@@ -3,7 +3,10 @@ import {Entity,    PrimaryGeneratedColumn,
     BaseEntity,
     CreateDateColumn,
     UpdateDateColumn,
-    getCustomRepository,} from "typeorm";
+    OneToMany,
+    getCustomRepository,
+    } from "typeorm";
+  import { Blog } from "./Blog";
 
 @Entity()
 export class Category extends BaseEntity{
@@ -16,6 +19,10 @@ export class Category extends BaseEntity{
       unique: false,
     })
     name!: string;
+    
+    @OneToMany(() => Blog, blog => blog.category)
+    // @JoinColumn({name: 'id'})
+    blogs!: Blog[];
 
     @CreateDateColumn()
     created_at!: Date;

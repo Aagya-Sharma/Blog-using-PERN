@@ -23,4 +23,29 @@ export class CategoryRepository extends Repository<Category> {
       res.send(error);
     }
   }
+
+
+  // get all the blogs of a category
+async getBlogsWithCategory(req:Request,res:Response){
+  const Id = req.params.id;
+
+  //get the blogs of the current user
+  try{
+    const categoryBlogs: any = await Category.findOne(
+      { id: Id },
+      {
+        relations: ["blogs"],
+      }
+    );
+    const blogs = categoryBlogs.blogs
+
+    return res.status(200).json({
+      blogs
+    })
+  }catch(error){
+    return res.status(401).json({
+      'error':error
+    })
+  }
+}
 }

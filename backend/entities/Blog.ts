@@ -1,6 +1,8 @@
 import {Entity,BaseEntity,PrimaryGeneratedColumn,Column,CreateDateColumn,
-    UpdateDateColumn,ManyToOne,OneToMany} from "typeorm";
+    UpdateDateColumn,ManyToOne,ManyToMany,JoinTable} from "typeorm";
 import {User} from "./User";
+import {Category} from "./Category";
+
 
 @Entity()
 export class Blog extends BaseEntity{
@@ -28,8 +30,9 @@ export class Blog extends BaseEntity{
       })
     imageurl!: string;
 
- 
-
+    @ManyToOne(() => Category, Category => Category.blogs)
+    category!: Category;
+    
     @CreateDateColumn()
     created_at!: Date;
   

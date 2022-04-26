@@ -8,6 +8,8 @@ const categoryrouter = Router();
 
 
 categoryrouter.post("/create",verifyadmin, Categorycontroller.addCategory);
+categoryrouter.get("/get/:id", Categorycontroller.getBlogsWithCategory);
+
 
 
 export { categoryrouter };
