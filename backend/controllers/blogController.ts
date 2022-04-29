@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getConnection, getManager } from "typeorm";
 import { BlogRepository } from "../repositories/blogRepo";
+import express from 'express';
 
 export class BlogController {
   //@desc create a blog

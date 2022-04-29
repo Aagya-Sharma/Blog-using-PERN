@@ -9,6 +9,7 @@ import { Blog } from "../entities/Blog";
 import { Request, Response } from "express";
 import { User } from "../entities/User";
 import { Category } from "../entities/Category";
+import express from 'express';
 
 @EntityRepository(Blog)
 export class BlogRepository extends Repository<Blog> {
@@ -145,16 +146,34 @@ async updateBlog(req: Request, res: Response) {
     });
   }
 }
-
+//get all the blogs of all category
 async getAllBlogs(req:Request,res:Response){
   try{
     const blogs =await  Blog.find();
+    // res.status(200).json({
+    //   blogs
+    
+    // });
+    res.send(blogs)
+
+  }catch(err){
+    res.send(err)
+  }
+}
+//get single blog using id from the parameter
+async getSingleBlog(req:Request,res:Response){
+  try{
+    const blog =await  Blog.findOne({id:req.params.id});
     res.status(200).json({
-      blogs
+      blog
     });
 
   }catch(err){
     res.send(err)
   }
 }
+
+
 }
+
+

@@ -17,5 +17,10 @@ export class Categorycontroller {
     const manager = entityManager.getCustomRepository(CategoryRepository);
     await manager.getBlogsWithCategory(req, res);
   }
+  static async getAllCategory(req: Request, res: Response) {
+    let entityManager = getManager();
+    const manager = entityManager.getCustomRepository(CategoryRepository);
+    await manager.getAllCategory(req, res);
+  }
 }
 

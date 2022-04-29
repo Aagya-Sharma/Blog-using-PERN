@@ -8,7 +8,9 @@ const categoryrouter = Router();
 
 
 categoryrouter.post("/create",verifyadmin, Categorycontroller.addCategory);
-categoryrouter.get("/get/:id", Categorycontroller.getBlogsWithCategory);
+categoryrouter.get("/get/:id", Categorycontroller.getBlogsWithCategory);//to get the blogs of a particular category
+categoryrouter.get("/getAllCategory", Categorycontroller.getAllCategory);
+
 
 
 

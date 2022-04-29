@@ -39,13 +39,25 @@ async getBlogsWithCategory(req:Request,res:Response){
     );
     const blogs = categoryBlogs.blogs
 
-    return res.status(200).json({
-      blogs
-    })
+    return res.send(blogs)
   }catch(error){
     return res.status(401).json({
       'error':error
     })
+  }
+}
+//get all the category
+async getAllCategory(req:Request,res:Response){
+  try{
+    const categories =await  Category.find();
+    // res.status(200).json({
+    //   blogs
+    
+    // });
+    res.send(categories)
+
+  }catch(err){
+    res.send(err)
   }
 }
 }

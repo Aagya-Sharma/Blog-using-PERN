@@ -16,7 +16,7 @@ export class Category extends BaseEntity{
     @Column({
       type: "varchar",
       nullable: true,
-      unique: false,
+      unique: true,
     })
     name!: string;
     

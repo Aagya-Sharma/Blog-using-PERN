@@ -11,8 +11,17 @@ export class UserRepository extends Repository<User> {
   // Create a new user
 
   async createUser(req: Request, res: Response) {
-    const { useremail, password, username } = req.body;
-
+    const { useremail, password, username,cpassword } = req.body;
+    if(password !== cpassword){
+      return res.status(401).send({
+        message: "Password do not match",
+      });
+    }
+    if(!useremail || !password || !username ||!cpassword){
+      return res.status(401).send({
+        message: "All fields are required",
+      });
+    }
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -45,15 +54,12 @@ export class UserRepository extends Repository<User> {
         // sned the confirmation mail
         sgMail.send(msg)
         await this.save(user);
-        return res.send({
-          message:
-            "User was registered successfully! Please check your email",
-        });
+        return res.send(user)
       } catch (err) {
-        console.log(err)
+        return res.send(err)
       }
   }catch (error) {
-      res.send(error);
+      return res.send(error);
     }
   }
 
@@ -166,7 +172,7 @@ export class UserRepository extends Repository<User> {
           (await bcrypt.compare(password, currentUser.password))
         ) {
           //check to see if the user has verified his account
-          if(currentUser.status !== "Active"){
+          if(currentUser.status === "Active"){
             res.status(200).json({
               id:currentUser.id,
               name: currentUser.username,
