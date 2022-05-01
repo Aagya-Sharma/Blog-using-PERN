@@ -13,12 +13,12 @@ export class UserRepository extends Repository<User> {
   async createUser(req: Request, res: Response) {
     const { useremail, password, username,cpassword } = req.body;
     if(password !== cpassword){
-      return res.status(401).send({
+      return res.status(401).json({
         message: "Password do not match",
       });
     }
     if(!useremail || !password || !username ||!cpassword){
-      return res.status(401).send({
+      return res.status(401).json({
         message: "All fields are required",
       });
     }
@@ -58,8 +58,10 @@ export class UserRepository extends Repository<User> {
       } catch (err) {
         return res.send(err)
       }
-  }catch (error) {
-      return res.send(error);
+  }catch (error:any) {
+      return res.json({
+        message: error.message
+      });
     }
   }
 
@@ -172,7 +174,7 @@ export class UserRepository extends Repository<User> {
           (await bcrypt.compare(password, currentUser.password))
         ) {
           //check to see if the user has verified his account
-          if(currentUser.status === "Active"){
+          if(currentUser.status !== "Active"){
             res.status(200).json({
               id:currentUser.id,
               name: currentUser.username,

@@ -7,6 +7,8 @@ import CategoryPage from './pages/CategoryPage';
 import ListItem from './components/ListItem';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import DashboardPage from './pages/DashboardPage';
+import PrivateRoute from './components/PrivateRoute';
 
 
 
@@ -16,13 +18,13 @@ function App() {
     <Router>
       <ListItem/>
     <Routes>
-    
      <Route path ='/' element = {<Home/>}/>
      <Route path = '/category/:categoryId' element ={<CategoryPage/>}/>
      <Route path = '/login' element ={<Login/>}/>
      <Route path = '/register' element ={<Register/>}/>
-
-
+     <Route path='/dashboard' element={<PrivateRoute />}>
+        <Route path = '/dashboard' element ={<DashboardPage/>}/>
+      </Route>
      </Routes>
     </Router>
     

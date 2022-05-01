@@ -19,16 +19,18 @@ function Login (){
     const onSubmit =(e:any)=>{
       e.preventDefault()
       dispatch(login({useremail,password}))
-      console.log(user)
-  }
-  useEffect(() => {
-   if (isError) {
-     <h1>{message}</h1>
    }
-   dispatch(reset())
- }, [isError, isSuccess, user, message, navigate, dispatch])
 
-return (
+   useEffect(() => {
+      if (isError) {
+      <h1>{message}</h1>
+      }
+      if(isSuccess){
+      navigate('/dashboard')
+      }
+      dispatch(reset())
+       }, [isError, isSuccess, user, message, navigate, dispatch])
+   return (
    <>
       <div className="main">
          <div className="box">

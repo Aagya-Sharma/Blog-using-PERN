@@ -9,13 +9,15 @@ interface InitalState {
   isLoading: boolean;
   message: string;
 }
+// @ts-ignore
+const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState: InitalState = {
-  user: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
+  user: {}
 };
 
 // Register User
@@ -99,7 +101,7 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = {};
       })
-      .addCase(logout.pending, (state) => {
+      .addCase(logout.fulfilled, (state) => {
         state.user = {};
       });
   },

@@ -14,7 +14,7 @@ import express from 'express';
 @EntityRepository(Blog)
 export class BlogRepository extends Repository<Blog> {
   async addBlog(req: Request, res: Response) {
-    const { title, desc, imageurl,catId } = req.body;
+    const { title, desc, imageurl,catId,excerpt } = req.body;
     const id = req.user.id;
 
     try {
@@ -23,6 +23,7 @@ export class BlogRepository extends Repository<Blog> {
       let blog = new Blog();
       blog.title = title;
       blog.desc = desc;
+      blog.excerpt = excerpt;
       blog.imageurl = imageurl;
       
 
@@ -96,12 +97,11 @@ async getBlogs(req:Request,res:Response){
     );
     const blogs = userBlogs.blogs
 
-    return res.status(200).json({
-      blogs
-    })
+    return res.status(200).send(blogs)
+    
   }catch(error){
     return res.status(401).json({
-      'error':error
+      'message':error
     })
   }
 }
@@ -116,6 +116,7 @@ async getBlog(req:Request,res:Response){
     res.status(200).json({
       title: blog.title,
       desc: blog.desc,
+      excerpt: blog.excerpt,
       imageurl: blog.imageurl,
     }); 
   }catch(err){
@@ -127,7 +128,7 @@ async getBlog(req:Request,res:Response){
 
 //update a single blog
 async updateBlog(req: Request, res: Response) {
-  const { title, desc, imageurl } = req.body;
+  const { title, desc, imageurl,excerpt } = req.body;
   const blogId = req.params.BlogId;
 
   try {
@@ -135,7 +136,8 @@ async updateBlog(req: Request, res: Response) {
     const blog:any = await Blog.findOne({id:blogId})
     blog.title = title;
     blog.desc = desc;
-    blog.imageurl = imageurl
+    blog.imageurl = imageurl;
+    blog.excerpt = excerpt;
     
     let updatedArticle = await this.save(blog)
     res.send(updatedArticle);

@@ -10,12 +10,14 @@ interface InitalState {
   isLoading: boolean;
   message: string;
   category:object;
+  article:object
   
 }
 
 const initialState: InitalState = {
   categories: [],
   articles:[],
+  article:{},
   isError: false,
   isSuccess: false,
   isLoading: false,

@@ -1,12 +1,12 @@
 import ListItem from "../components/ListItem";
 import MainSection from "../components/MainSection"
-import { useEffect,useState } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch,useAppSelector } from "../app/hooks";
-import { getAllCategories,getBlogsWithCategory } from '../features/category/categorySlice'
-import { useParams, useNavigate } from 'react-router-dom'
-import type { RootState, AppDispatch } from '../app/store';
+import { getBlogsWithCategory,reset } from '../features/category/categorySlice'
+import { useParams } from 'react-router-dom'
+import type { RootState } from '../app/store';
 
-
+//for displaying the blogs of a particular category
 function CategoryPage (){
   const params = useParams()
   const { categoryId } = useParams()
@@ -16,19 +16,27 @@ function CategoryPage (){
       (state:RootState) => state.categories
     )
     const dispatch = useAppDispatch();
+    
     useEffect(() => {
         dispatch(getBlogsWithCategory(categoryId))
-      }, [dispatch])
-    console.log(articles)
+        console.log(articles)
+      }, [dispatch,categoryId])
+
+      useEffect(() => {
+        return () => {
+          if (isSuccess) {
+            dispatch(reset())
+          }
+        }
+      }, [dispatch, isSuccess])
+    
     return (
         <>
-        <ListItem/>
-        {articles.map((article:any):any=> (
-          <MainSection {...article}/>
-        ))}
+          {articles.map((article:any):any=> (
+            <MainSection {...article}/>
+          ))}
         </>
     )
-
 }
  
 export default CategoryPage;

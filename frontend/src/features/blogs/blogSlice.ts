@@ -31,6 +31,27 @@ export const getAllBlogs:any = createAsyncThunk(
   }
 );
 
+// Get user blogs
+export const getBlogs = createAsyncThunk(
+  'blogs/getAll',
+  async (_,thunkAPI:any) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      console.log(token)
+      return await blogService.getBlogs(token)
+    } catch (error:any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 // Blog Slice
 export const blogSlice = createSlice({
   name: "blog",
@@ -54,6 +75,20 @@ export const blogSlice = createSlice({
         state.blogs = action.payload;
       })
       .addCase(getAllBlogs.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = true;
+        state.isError = true;
+        state.message = action.payload;
+        state.blogs = [];
+      })
+      .addCase(getBlogs.pending, (state:any) => {
+        state.isLoading = true;
+      })
+      .addCase(getBlogs.fulfilled, (state:any, action: PayloadAction<any>) => {
+        state.isLoading = true;
+        state.isSuccess = true;
+        state.blogs = action.payload;
+      })
+      .addCase(getBlogs.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = true;
         state.isError = true;
         state.message = action.payload;

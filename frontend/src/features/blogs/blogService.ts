@@ -8,11 +8,21 @@ const getAllBlogs = async () => {
   return response.data;
 };
 
+// Get all user blogs
+const getBlogs = async (token:any) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(API_URL + "/get",config);
+  return response.data;
+};
 
 
 const blogService = {
   getAllBlogs,
-
+  getBlogs
 };
 
 export default blogService;

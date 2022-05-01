@@ -24,6 +24,13 @@ export class Blog extends BaseEntity{
     desc!: string;
 
     @Column({
+      type: "varchar",
+      nullable: true,
+      unique: false,
+    })
+  excerpt!: string;
+
+    @Column({
         type: "varchar",
         nullable: false,
         unique: false,

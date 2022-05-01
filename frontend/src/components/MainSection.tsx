@@ -3,9 +3,11 @@ import "../css/Main.css"
 interface EmployeeProps {
 	title: string;
 	desc:string;
+	article:object;
+	excerpt:string;
 }
 
-function MainSection({title,desc}:EmployeeProps){
+function MainSection({title,desc,article,excerpt}:EmployeeProps){
 	return (
 	<>
         <div className="container pt-4 pb-4">
@@ -17,6 +19,9 @@ function MainSection({title,desc}:EmployeeProps){
 							<a className="text-dark" href="./article.html">
 							{title}</a>
 							</h2>
+							<h3 className="card-text">
+								{excerpt}
+							</h3>
 							<p className="card-text">
 								{desc}
 							</p>
